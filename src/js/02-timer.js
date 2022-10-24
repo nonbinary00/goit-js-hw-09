@@ -24,6 +24,8 @@ const {
     timer: document.querySelector(".timer"),
   };
 
+// styles
+
 timer.style.display = "flex";
 timer.style.gap = "30px";
 timer.style.marginTop = "30px";
@@ -52,6 +54,7 @@ const options = {
       addAttributeDisabled(startBtn, false);
     },
   };
+  
 
 
 //Initialize flatpickr
