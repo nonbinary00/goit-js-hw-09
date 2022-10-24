@@ -2,35 +2,49 @@ import flatpickr from 'flatpickr';
 import "flatpickr/dist/flatpickr.min.css";
 import Notiflix from 'notiflix';
 
-const refs = {
-    input: document.querySelector('#datetime-picker'),
-    startBtn: document.querySelector('button[data-start]'),
-    daysEl: document.querySelector('span[data-days]'),
-    hoursEl: document.querySelector('span[data-hours]'),
-    minutesEl: document.querySelector('span[data-minutes]'),
-    secondsEl: document.querySelector('span[data-seconds]'),
+// refs
+
+const {
+    flatpickrInput,
+    startBtn,
+    daysValue,
+    hoursValue,
+    minutesValue,
+    secondsValue,
+    fields,
+ } = {
+    flatpickrInput: document.querySelector('input#datetime-picker'),
+    startBtn: document.querySelector('[data-start]'),
+    daysValue: document.querySelector('[data-days]'),
+    hoursValue: document.querySelector('[data-hours]'),
+    minutesValue: document.querySelector('[data-minutes]'),
+    secondsValue: document.querySelector('[data-seconds]'),
+    fields: document.querySelectorAll('.field'),
   };
 
-  refs.startBtn.setAttribute('disabled', 'disabled');
+//   refs.startBtn.setAttribute('disabled', 'disabled');
 
-  const options = {
+//Initialize id for interval
+let intervalId;
+
+  //Options for flatpickr
+const options = {
     enableTime: true,
     time_24hr: true,
     defaultDate: new Date(),
     minuteIncrement: 1,
-    static: true,
     onClose(selectedDates) {
-      console.log(selectedDates[0]);
-      if (selectedDates[0] >= Date.now()) {
-        refs.startBtn.removeAttribute('disabled');
-      } else {
-        Notiflix.Notify.failure('Please choose a date in the future');
-        refs.startBtn.setAttribute('disabled', 'disabled');
+      //Reject any date before or equal to Date.now()
+      //Using Notify for alert
+      //Disables start button if user changed date from future to before
+      if (Date.now() - selectedDates[0].getTime() >= 0) {
+        addAttributeDisabled(startBtn, true);
+  
+        Notify.failure('Please choose a date in the future');
+        return;
       }
+  
+      addAttributeDisabled(startBtn, false);
     },
   };
 
-  flatpickr('#datetime-picker', options);
-
-
-  
