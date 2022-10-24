@@ -1,6 +1,6 @@
 import flatpickr from 'flatpickr';
 import "flatpickr/dist/flatpickr.min.css";
-import Notiflix from 'notiflix';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 // refs
 
@@ -28,20 +28,24 @@ const {
 let intervalId;
 
 const options = {
-	enableTime: true,
-	time_24hr: true,
-	defaultDate: new Date(),
-	minuteIncrement: 1,
-	onClose(selectedDates) {
-		console.log(selectedDates[0]);
-		if (Date.now() > selectedDates[0].getTime()) {
-			Notify.failure("Please choose a date in the future");
-			addAttributeDisabled(startBtn, true);
-			return;
-		}
-		addAttributeDisabled(startBtn, false);
-	},
-};
+    enableTime: true,
+    time_24hr: true,
+    defaultDate: new Date(),
+    minuteIncrement: 1,
+    onClose(selectedDates) {
+      //Reject any date before or equal to Date.now()
+      //Using Notify for alert
+      //Disables start button if user changed date from future to before
+      if (Date.now() - selectedDates[0].getTime() >= 0) {
+        addAttributeDisabled(startBtn, true);
+  
+        Notify.failure('Please choose a date in the future');
+        return;
+      }
+  
+      addAttributeDisabled(startBtn, false);
+    },
+  };
 
 
 //Initialize flatpickr
@@ -89,4 +93,17 @@ function convertMs(ms) {
     const seconds = Math.floor((((ms % day) % hour) % minute) / second);
   
     return { days, hours, minutes, seconds };
+  }
+
+  //Function to make string of minimum 2 symbols and start with "0"
+function addLeadingZero(value) {
+    return String(value).padStart(2, '0');
+  }
+  
+  function addAttributeDisabled(elem, value) {
+    elem.disabled = value;
+  }
+  
+  function changeTextContent(elem, obj, units) {
+    elem.textContent = addLeadingZero(obj[units]);
   }
