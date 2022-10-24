@@ -12,6 +12,7 @@ const {
     minutesValue,
     secondsValue,
     fields,
+    timer,
  } = {
     flatpickrInput: document.querySelector('input#datetime-picker'),
     startBtn: document.querySelector('[data-start]'),
@@ -20,7 +21,12 @@ const {
     minutesValue: document.querySelector('[data-minutes]'),
     secondsValue: document.querySelector('[data-seconds]'),
     fields: document.querySelectorAll('.field'),
+    timer: document.querySelector(".timer"),
   };
+
+timer.style.display = "flex";
+timer.style.gap = "30px";
+timer.style.marginTop = "30px";
 
 //   refs.startBtn.setAttribute('disabled', 'disabled');
 
