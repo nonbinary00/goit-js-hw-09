@@ -35,7 +35,7 @@ timer.style.marginTop = "30px";
 //Initialize id for interval
 let intervalId;
 
-refs.startBtn.setAttribute('disabled', '');
+btnStart.disabled = true;
 
 const options = {
     enableTime: true,
@@ -48,14 +48,14 @@ const options = {
       //Disables start button if user changed date from future to before
       if (Date.now() - selectedDates[0].getTime() >= 0) {
         // addAttributeDisabled(startBtn, true);
-        refs.startBtn.setAttribute('disabled', 'true');
+        btnStart.disabled = true;
   
         Notify.failure('Please choose a date in the future');
         return;
       }
   
       // addAttributeDisabled(startBtn, false);
-      refs.startBtn.setAttribute('disabled', 'false');
+      btnStart.disabled = false;
     },
   };
   
